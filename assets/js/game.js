@@ -1,30 +1,45 @@
 
-// function "randomNumber"
+// function "randomNumber" to choose random number
 var randomNumber = function(min, max){
     var value = Math.floor(Math.random() * (max - min + 1) + min);
 
     return value;
 };
 
-// function "fight"
+// function "fightOrSkip" to 
+var fightOrSkip = function(){
+    // ask to fight or skip
+    var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
+
+    // conditional recursive function call
+    if(promptFight === "" || promptFight === null){
+        window.alert("You need to provide a valid answer! Please try again.");
+        return fightOrSkip();
+    }
+
+    promptFight = promptFight.toLowerCase();
+
+    // if player chose skip
+    if(promptFight === "skip"){
+        var confirmSkip = window.confirm("Are you sure you'd like to quit?");
+        if (confirmSkip){
+            window.alert(playerInfo.name + " has decided to skip thise fight. Goodbye!");
+            playerInfo;playerMoney = playerInfo.money - 10;
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// function "fight" for player-robot to fight enemy-robot
 var fight = function(enemy){
     while(playerInfo.health > 0 && enemy.health > 0){
-        // to fight or not?
-        var promptFight = window.prompt("Would you like to FIGHT or SKIP this battle? Enter 'FIGHT' or 'SKIP' to choose.");
         
         // if player choose to skip, then skip
-        if (promptFight === "skip" || promptFight === "SKIP"){
+        if (fightOrSkip()){
             // confirm player wants to skip
-            var confirmSkip = window.confirm("Are you sure you'd like to quit?");
-            
-            // if yes(true), leave fight
-            if (confirmSkip){
-                window.alert(playerInfo.name + " has decided to skip the fight. Goodbye!");
-                // subtract money from playerMoney for skipping
-                playerInfo.money = Math.max(0, playerInfo.money - 10);
-                console.log("playerMoney", playerInfo.money);
-                break;
-            }
+            break;
         }
         
         // generate random damage value based on player's attack power
